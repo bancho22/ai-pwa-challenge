@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const [selectedFile, setSelectedFile] = useState(null);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +20,14 @@ function App() {
         >
           Learn TensorFlowJS
         </a>
+        <div className="input-wrapper">
+          <span>Insert playing card image below:</span>
+          <input
+            type="file"
+            value={selectedFile}
+            onChange={(e) => setSelectedFile(e.target.files[0])}
+          />
+        </div>
       </header>
     </div>
   );

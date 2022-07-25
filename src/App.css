@@ -24,6 +24,10 @@
   color: white;
 }
 
+.App-header .input-wrapper {
+  padding-top: 50px;
+}
+
 .App-link {
   color: #61dafb;
 }
