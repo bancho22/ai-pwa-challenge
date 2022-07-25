@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [img, setImg] = useState(null);
 
   return (
     <div className="App">
@@ -20,14 +20,30 @@ function App() {
         >
           Learn TensorFlowJS
         </a>
-        <div className="input-wrapper">
-          <span>Insert playing card image below:</span>
-          <input
-            type="file"
-            value={selectedFile}
-            onChange={(e) => setSelectedFile(e.target.files[0])}
-          />
-        </div>
+        {
+          !Boolean(img) && (
+            <div className="input-wrapper">
+              <span>Insert playing card image below:</span>
+              <input
+                type="file"
+                onChange={(e) => setImg(URL.createObjectURL(e.target.files[0]))}
+              />
+            </div>
+          )
+        }
+        {
+          Boolean(img) && (
+            <React.Fragment>
+              <img src={img} alt="uploaded card" className='card-image' />
+              <button
+                className='detection-button'
+                onClick={() => alert('Implement me!')}
+              >
+                Run Detection Algo
+              </button>
+            </React.Fragment>
+          )
+        }
       </header>
     </div>
   );

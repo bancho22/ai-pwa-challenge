@@ -28,6 +28,15 @@
   padding-top: 50px;
 }
 
+.App-header .card-image {
+  padding-top: 20px;
+  width: 50%;
+}
+
+.App-header .detection-button {
+  margin-top: 20px;
+}
+
 .App-link {
   color: #61dafb;
 }
