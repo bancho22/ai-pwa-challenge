@@ -49,20 +49,22 @@ function App() {
     // Main function
     const runCoco = async () => {
       // 3. TODO - Load network 
-      console.log('Loading neural network...');
-      const net = await cocossd.load();
-      console.log('Neural network loaded!');
-      //  Loop and detect hands
-      intervalId.current = setInterval(() => {
-        detect(net);
-      }, 10);
+      if (isCamOn) {
+        console.log('Loading neural network...');
+        const net = await cocossd.load();
+        console.log('Neural network loaded!');
+        //  Loop and detect hands
+        intervalId.current = setInterval(() => {
+          detect(net);
+        }, 10);
+      }
 
       return () => {
         clearInterval(intervalId.current);
       };
     };
     runCoco();
-  }, []);
+  }, [isCamOn]);
 
   return (
     <div className="App">
