@@ -24,17 +24,13 @@
   color: white;
 }
 
-.App-header .input-wrapper {
-  padding-top: 50px;
-}
-
-.App-header .card-image {
-  padding-top: 20px;
-  width: 50%;
-}
-
 .App-header .detection-button {
   margin-top: 20px;
+}
+
+.App-header .detection-button-top {
+  position: absolute;
+  top: 20px;
 }
 
 .App-link {
