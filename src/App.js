@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import Webcam from "react-webcam";
 // eslint-disable-next-line no-unused-vars
 import * as tf from "@tensorflow/tfjs";
-import * as cocossd from "@tensorflow-models/coco-ssd";
+import rankModelJson from './ml-models/rank_model/model.json';
+// import suitModelJson from './ml-models/suit_model/model.json';
 import { drawRect } from "./utilities";
 import logo from "./logo.svg";
 import "./App.css";
@@ -47,15 +48,25 @@ function App() {
 
   useEffect(() => {
     // Main function
-    const runCoco = async () => {
-      // 3. TODO - Load network 
+    const runML = async () => {
+      // 3. Load network 
       if (isCamOn) {
-        console.log('Loading neural network...');
-        const net = await cocossd.load();
-        console.log('Neural network loaded!');
+        console.log('Loading neural networks...');
+
+        // one model for card ranks
+        console.log({rankModelJson});
+        const rankModel = await tf.loadLayersModel({ load: () => rankModelJson });
+
+        // another model for card suits
+        // console.log({suitModelJson});
+        // const suitModel = await tf.loadLayersModel({ load: () => rankModelJson });
+
+        console.log('Neural networks loaded!');
         //  Loop and detect hands
         intervalId.current = setInterval(() => {
-          detect(net);
+          // TODO: might make sense to combine below code into one call to detect fn:
+          detect(rankModel);
+          // detect(suitModel)
         }, 10);
       }
 
@@ -63,7 +74,7 @@ function App() {
         clearInterval(intervalId.current);
       };
     };
-    runCoco();
+    runML();
   }, [isCamOn]);
 
   return (

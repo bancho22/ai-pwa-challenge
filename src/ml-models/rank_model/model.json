@@ -2,7 +2,7 @@
     "format": "layers-model",
     "generatedBy": null,
     "convertedBy": "TensorFlow.js Converter v3.19.0",
-    "modelTopology": null,
+    "modelTopology": "none",
     "weightsManifest": [
         {
             "paths": [
