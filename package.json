@@ -2,6 +2,7 @@
   "name": "ai-pwa-challenge",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://tfhub.dev",
   "dependencies": {
     "@tensorflow/tfjs": "^3.19.0",
     "@testing-library/jest-dom": "^5.16.4",

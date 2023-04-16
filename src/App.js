@@ -2,11 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import Webcam from "react-webcam";
 // eslint-disable-next-line no-unused-vars
 import * as tf from "@tensorflow/tfjs";
-import rankModelJson from './ml-models/rank_model/model.json';
+// import rankModelJson from './ml-models/rank_model/model.json';
 // import suitModelJson from './ml-models/suit_model/model.json';
-import { drawRect } from "./utilities";
+// import { drawRect } from "./utilities";
 import logo from "./logo.svg";
 import "./App.css";
+
+const MODEL_URL = '/google/tfjs-model/imagenet/mobilenet_v2_100_224/classification/3/default/1';
 
 function App() {
   const [isCamOn, setCamOn] = useState(false);
@@ -14,37 +16,37 @@ function App() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
-  const detect = async (net) => {
-    // Check data is available
-    if (
-      typeof webcamRef.current !== "undefined" &&
-      webcamRef.current !== null &&
-      webcamRef.current.video.readyState === 4
-    ) {
-      // Get Video Properties
-      const video = webcamRef.current.video;
-      const videoWidth = webcamRef.current.video.videoWidth;
-      const videoHeight = webcamRef.current.video.videoHeight;
+  // const detect = async (net) => {
+  //   // Check data is available
+  //   if (
+  //     typeof webcamRef.current !== "undefined" &&
+  //     webcamRef.current !== null &&
+  //     webcamRef.current.video.readyState === 4
+  //   ) {
+  //     // Get Video Properties
+  //     const video = webcamRef.current.video;
+  //     const videoWidth = webcamRef.current.video.videoWidth;
+  //     const videoHeight = webcamRef.current.video.videoHeight;
 
-      // Set video width
-      webcamRef.current.video.width = videoWidth;
-      webcamRef.current.video.height = videoHeight;
+  //     // Set video width
+  //     webcamRef.current.video.width = videoWidth;
+  //     webcamRef.current.video.height = videoHeight;
 
-      // Set canvas height and width
-      canvasRef.current.width = videoWidth;
-      canvasRef.current.height = videoHeight;
+  //     // Set canvas height and width
+  //     canvasRef.current.width = videoWidth;
+  //     canvasRef.current.height = videoHeight;
 
-      // 4. TODO - Make Detections
-      const obj = await net.detect(video);
+  //     // 4. TODO - Make Detections
+  //     const obj = await net.detect(video);
 
-      // Draw mesh
-      const ctx = canvasRef.current.getContext("2d");
+  //     // Draw mesh
+  //     const ctx = canvasRef.current.getContext("2d");
 
-      // 5. TODO - Update drawing utility
-      drawRect(obj, ctx);
-      console.log(obj); // printing predictions
-    }
-  };
+  //     // 5. TODO - Update drawing utility
+  //     drawRect(obj, ctx);
+  //     console.log(obj); // printing predictions
+  //   }
+  // };
 
   useEffect(() => {
     // Main function
@@ -54,20 +56,20 @@ function App() {
         console.log('Loading neural networks...');
 
         // one model for card ranks
-        console.log({rankModelJson});
-        const rankModel = await tf.loadLayersModel({ load: () => rankModelJson });
+        const rankModel = await tf.loadGraphModel(MODEL_URL, { fromTFHub: true });
+        console.log(rankModel);
 
         // another model for card suits
         // console.log({suitModelJson});
         // const suitModel = await tf.loadLayersModel({ load: () => rankModelJson });
 
-        console.log('Neural networks loaded!');
+        console.log('Neural network loaded!');
         //  Loop and detect hands
-        intervalId.current = setInterval(() => {
-          // TODO: might make sense to combine below code into one call to detect fn:
-          detect(rankModel);
-          // detect(suitModel)
-        }, 10);
+        // intervalId.current = setInterval(() => {
+        //   // TODO: might make sense to combine below code into one call to detect fn:
+        //   detect(rankModel);
+        //   // detect(suitModel)
+        // }, 10);
       }
 
       return () => {
